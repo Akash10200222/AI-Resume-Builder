@@ -9,18 +9,18 @@ const ProjectForm = ({ data, onChange }) => {
             type: "",
             description: "",
         };
-        onChange([...data, newProject]);
+        onChange([...data, newProject])
     }
 
     const removeProject = (index) => {
         const updated = data.filter((_, i)=> i !== index);
-        onChange(updated);
+        onChange(updated)
     }
 
     const updateProject = (index, field, value) => {
         const updated = [...data];
-        updated[index] = {...updated[index], [field]: value};
-        onChange(updated);
+        updated[index] = {...updated[index], [field]: value}
+        onChange(updated)
     }
 
 

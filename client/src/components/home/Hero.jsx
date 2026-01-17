@@ -1,39 +1,44 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
+
+  const {user} = useSelector(state => state.auth);
+
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const logos = [
-    "https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg",
-    "https://saasly.prebuiltui.com/assets/companies-logo/framer.svg",
-    "https://saasly.prebuiltui.com/assets/companies-logo/microsoft.svg",
-    "https://saasly.prebuiltui.com/assets/companies-logo/huawei.svg",
-    "https://saasly.prebuiltui.com/assets/companies-logo/walmart.svg",
+    "/logos/instagram.svg",
+    "/logos/microsoft.svg",
+    "/logos/framer.svg",
+    "/logos/huawei.svg",
+    "/logos/facebook.svg",
+    "/logos/twitter.svg",
   ];
   return (
     <>
       <div className="min-h-screen pb-20">
         {/* Navbar */}
         <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
-          <a href="https://prebuiltui.com">
+          <a href="/">
             <img src="/logo.svg" alt="logo" className="h-11 w-auto"/>
           </a>
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-            <a href="#" className="hover:text-green-600 transition">
+            <a href="#" className="hover:text-pink-700 transition">
               Home
             </a>
-            <a href="#features" className="hover:text-green-600 transition">
+            <a href="#features" className="hover:text-pink-700 transition">
               Features
             </a>
             <a
               href="#testimonials"
-              className="hover:text-green-600 transition"
+              className="hover:text-pink-700 transition"
             >
               Testimonials
             </a>
-            <a href="#cta" className="hover:text-green-600 transition">
+            <a href="#cta" className="hover:text-pink-700 transition">
               Contact
             </a>
           </div>
@@ -41,15 +46,21 @@ const Hero = () => {
           <div className="flex gap-2">
             <Link
                 to='/app?state=register'
-              className="hidden md:block px-6 py-2 bg-green-500 hover:bg-green-700 active:scale-95 transition-all rounded-full text-white"
+              className="hidden md:block px-6 py-2 bg-pink-500 hover:bg-pink-700 ring-offset-2 ring-1 ring-pink-400 active:scale-95 transition-all rounded-full text-white" hidden={user}
             >
               Get started
             </Link>
             <Link
                 to='/app?state=login'
-              className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full text-slate-700 hover:text-slate-900"
+              className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-pink-100 transition-all rounded-full text-pink-700 ring-offset-2 ring-1 ring-pink-400 bg-linear-to-r from-pink-200 to-blue-100" hidden={user}
             >
               Login
+            </Link>
+             <Link
+                to='/app'
+              className="hidden md:block px-8 py-2 bg-pink-500 hover:bg-pink-700 active:scale-95 transition-all rounded-full text-white" hidden={!user}
+            >
+              Dashboard
             </Link>
           </div>
 
@@ -73,25 +84,25 @@ const Hero = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed inset-0 z-[100] bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${
+          className={`fixed inset-0 z-100 bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <a href="#" className="text-white">
+          <a href="#" className="text-white hover:text-pink-700 transition">
             Home
           </a>
-          <a href="#features" className="text-white">
+          <a href="#features" className="text-white hover:text-pink-700 transition">
             Features
           </a>
-          <a href="#testimonials" className="text-white">
+          <a href="#testimonials" className="text-white hover:text-pink-700 transition">
             Testimonials
           </a>
-          <a href="#contact" className="text-white">
+          <a href="#cta" className="text-white hover:text-pink-700 transition">
             Contact
           </a>
           <button
             onClick={() => setMenuOpen(false)}
-            className="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-green-600 hover:bg-green-700 transition text-white rounded-md flex"
+            className="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-pink-600 hover:bg-pink-700 transition text-white rounded-md flex"
           >
             X
           </button>
@@ -99,35 +110,35 @@ const Hero = () => {
 
         {/* Hero Section */}
         <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
-          <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-green-300 blur-[100px] opacity-30"></div>
+          <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-pink-300 blur-[100px] opacity-30"></div>
 
           {/* Avatars + Stars */}
           <div className="flex items-center mt-24">
             <div className="flex -space-x-3 pr-3">
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200"
+                src="/public/avatars/pic1.jpeg"
                 alt="user3"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[1]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-1"
               />
               <img
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200"
+                src="/public/avatars/pic2.jpeg"
                 alt="user1"
                 className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-2"
               />
               <img
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200"
+                src="/public/avatars/pic3.jpeg"
                 alt="user2"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[3]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-3"
               />
               <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200"
+                src="/public/avatars/pic4.jpeg"
                 alt="user3"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[4]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-4"
               />
               <img
-                src="https://randomuser.me/api/portraits/men/75.jpg"
+                src="/public/avatars/pic5.jpeg"
                 alt="user5"
-                className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[5]"
+                className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-5"
               />
             </div>
 
@@ -147,21 +158,21 @@ const Hero = () => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="lucide lucide-star text-transparent fill-green-600"
+                      className="lucide lucide-star text-transparent fill-pink-600"
                       aria-hidden="true"
                     >
                       <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
                     </svg>
                   ))}
               </div>
-              <p className="text-sm text-gray-700">Used by 10,000+ users</p>
+              <p className="text-sm text-gray-700">Used by 50,000+ users</p>
             </div>
           </div>
 
           {/* Headline + CTA */}
           <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]">
             Make your dream job with{" "}
-            <span className=" bg-gradient-to-r from-green-700 to-green-600 bg-clip-text text-transparent text-nowrap">
+            <span className=" bg-linear-to-r from-pink-700 to-blue-400 bg-clip-text text-transparent text-nowrap">
               AI-powered{" "}
             </span>{" "}
             Resumes.
@@ -175,7 +186,7 @@ const Hero = () => {
           <div className="flex items-center gap-4 ">
             <Link
               to='/app'
-              className="bg-green-500 hover:bg-green-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-green-400 flex items-center transition-colors"
+              className="bg-linear-to-r from-pink-700 to-blue-400 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-pink-400 flex items-center transition-colors"
             >
               Get started
               <svg
@@ -237,12 +248,12 @@ const Hero = () => {
       </div>
       <style>
         {`
-                    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-                    * {
-                        font-family: 'Poppins', sans-serif;
-                    }
-                `}
+          * {
+              font-family: 'Poppins', sans-serif;
+            }
+        `}
       </style>
     </>
   );
