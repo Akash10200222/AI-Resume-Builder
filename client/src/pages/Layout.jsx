@@ -7,9 +7,9 @@ import Login from './Login'
 
 const Layout = () => {
 
-  const {user, loading} = useSelector(state => state.auth)
+  const { user, loading } = useSelector(state => state.auth)
 
-  if(loading){
+  if (loading) {
     return <Loader />
   }
 
@@ -18,11 +18,11 @@ const Layout = () => {
       {
         user ? (
           <div className='min-h-screen bg-gray-50'>
-          <Navbar />
-          <Outlet />
+            <Navbar />
+            <Outlet />
           </div>
         )
-        : <Login />
+          : <Login />
       }
     </div>
   )
