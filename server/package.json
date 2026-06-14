@@ -1,11 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API for AI Resume Builder",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
