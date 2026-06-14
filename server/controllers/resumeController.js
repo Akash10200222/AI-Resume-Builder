@@ -1,70 +1,79 @@
-import imagekit from "../configs/imageKit.js";
-import Resume from "../models/Resume.js";
-import fs from "fs";
+import fs from 'fs';
 
+import imagekit from '../configs/imageKit.js';
+import Resume from '../models/Resume.js';
 
-// controller for creating a new resume
 // POST: /api/resumes/create
 export const createResume = async (req, res) => {
   try {
-    const userId = req.userId;
     const { title } = req.body;
 
-    // create new resume
-    const newResume = await Resume.create({ userId, title })
-    return res.status(201).json({ message: "Resume created successfully", resume: newResume });
+    const newResume = await Resume.create({
+      userId: req.userId,
+      title: title || 'Untitled Resume',
+    });
+
+    return res.status(201).json({
+      message: 'Resume created successfully',
+      resume: newResume,
+    });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
 
-// controller for deleting a resume
-// DELETE: /api/resumes/delete
+// DELETE: /api/resumes/delete/:resumeId
 export const deleteResume = async (req, res) => {
   try {
-    const userId = req.userId;
     const { resumeId } = req.params;
 
-    await Resume.findOneAndDelete({userId, _id: resumeId});
+    const deletedResume = await Resume.findOneAndDelete({
+      userId: req.userId,
+      _id: resumeId,
+    });
 
-    // return success message
-    return res.status(200).json({ message: "Resume deleted successfully" });
+    if (!deletedResume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    return res.status(200).json({ message: 'Resume deleted successfully' });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
 
-// get user resume by id
-// GET: /api/resumes/get
+// GET: /api/resumes/get/:resumeId
 export const getResumeById = async (req, res) => {
   try {
-    const userId = req.userId;
     const { resumeId } = req.params;
 
-    const resume = await Resume.findOne({ userId, _id: resumeId })
+    const resume = await Resume.findOne({
+      userId: req.userId,
+      _id: resumeId,
+    }).select('-__v');
 
     if (!resume) {
-      return res.status(404).json({ message: "Resume not found" });
+      return res.status(404).json({ message: 'Resume not found' });
     }
 
-    resume.__v = undefined; // remove __v from response
-    resume.createdAt = undefined; // remove createdAt from response
-    resume.updatedAt = undefined; // remove updatedAt from response
     return res.status(200).json({ resume });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
 
-// get resume by id public
-// GET: /api/resumes/public
+// GET: /api/resumes/public/:resumeId
 export const getPublicResumeById = async (req, res) => {
   try {
     const { resumeId } = req.params;
-    const resume = await Resume.findOne({ public: true, _id: resumeId })
+
+    const resume = await Resume.findOne({
+      public: true,
+      _id: resumeId,
+    }).select('-__v');
 
     if (!resume) {
-      return res.status(404).json({ message: "Resume not found" });
+      return res.status(404).json({ message: 'Resume not found' });
     }
 
     return res.status(200).json({ resume });
@@ -73,45 +82,64 @@ export const getPublicResumeById = async (req, res) => {
   }
 };
 
-// controller for updating a resume
 // PUT: /api/resumes/update
 export const updateResume = async (req, res) => {
   try {
-    const userId = req.userId;
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    let resumeDataCopy;
-    if(typeof resumeData === 'string'){
-      resumeDataCopy = await JSON.parse(resumeData)
+    if (!resumeId) {
+      return res.status(400).json({ message: 'resumeId is required' });
     }
-    else{
-      resumeDataCopy = structuredClone(resumeData)
+
+    let resumeDataCopy = {};
+
+    if (resumeData) {
+      resumeDataCopy = typeof resumeData === 'string' ? JSON.parse(resumeData) : structuredClone(resumeData);
     }
+
+    delete resumeDataCopy._id;
+    delete resumeDataCopy.userId;
+    delete resumeDataCopy.createdAt;
+    delete resumeDataCopy.updatedAt;
+    delete resumeDataCopy.__v;
 
     if (image) {
+      try {
         const imageBufferData = fs.createReadStream(image.path);
 
-        // upload image to imagekit
-      const response = await imagekit.files.upload({
-        file: imageBufferData,
-        fileName: "resume.png",
-        folder: "user-resumes",
-        transformation: {
-            pre: 'w-300, h-300, fo-face, z-0.75' + (removeBackground ? ', e-bgremove' : '')
-        }
-      });
+        const response = await imagekit.files.upload({
+          file: imageBufferData,
+          fileName: image.filename || 'resume-profile.png',
+          folder: '/user-resumes',
+          transformation: {
+            pre: `w-300,h-300,fo-face,z-0.75${removeBackground ? ',e-bgremove' : ''}`,
+          },
+        });
 
-      resumeDataCopy.personal_info.image = response.url
+        if (!resumeDataCopy.personal_info) {
+          resumeDataCopy.personal_info = {};
+        }
+
+        resumeDataCopy.personal_info.image = response.url;
+      } finally {
+        if (image.path && fs.existsSync(image.path)) {
+          fs.unlinkSync(image.path);
+        }
+      }
     }
 
     const resume = await Resume.findOneAndUpdate(
-      { userId, _id: resumeId },
-      resumeDataCopy,
-      { new: true }
-    );
+      { userId: req.userId, _id: resumeId },
+      { $set: resumeDataCopy },
+      { new: true, runValidators: true }
+    ).select('-__v');
 
-    return res.status(200).json({ message: "Saved successfully", resume })
+    if (!resume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    return res.status(200).json({ message: 'Saved successfully', resume });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
