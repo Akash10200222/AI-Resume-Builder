@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
 
-  const {user} = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -22,7 +22,7 @@ const Hero = () => {
         {/* Navbar */}
         <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
           <a href="/">
-            <img src="/logo.svg" alt="logo" className="h-11 w-auto"/>
+            <img src="/logo.svg" alt="logo" className="h-11 w-auto" />
           </a>
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
@@ -45,19 +45,19 @@ const Hero = () => {
 
           <div className="flex gap-2">
             <Link
-                to='/app?state=register'
+              to='/app?state=register'
               className="hidden md:block px-6 py-2 bg-pink-500 hover:bg-pink-700 ring-offset-2 ring-1 ring-pink-400 active:scale-95 transition-all rounded-full text-white" hidden={user}
             >
               Get started
             </Link>
             <Link
-                to='/app?state=login'
+              to='/app?state=login'
               className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-pink-100 transition-all rounded-full text-pink-700 ring-offset-2 ring-1 ring-pink-400 bg-linear-to-r from-pink-200 to-blue-100" hidden={user}
             >
               Login
             </Link>
-             <Link
-                to='/app'
+            <Link
+              to='/app'
               className="hidden md:block px-8 py-2 bg-pink-500 hover:bg-pink-700 active:scale-95 transition-all rounded-full text-white" hidden={!user}
             >
               Dashboard
@@ -84,9 +84,8 @@ const Hero = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed inset-0 z-100 bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${
-            menuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`fixed inset-0 z-100 bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
         >
           <a href="#" className="text-white hover:text-pink-700 transition">
             Home
@@ -116,27 +115,27 @@ const Hero = () => {
           <div className="flex items-center mt-24">
             <div className="flex -space-x-3 pr-3">
               <img
-                src="/public/avatars/pic1.jpeg"
+                src="/avatars/pic1.jpeg"
                 alt="user3"
                 className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-1"
               />
               <img
-                src="/public/avatars/pic2.jpeg"
+                src="/avatars/pic2.jpeg"
                 alt="user1"
                 className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-2"
               />
               <img
-                src="/public/avatars/pic3.jpeg"
+                src="/avatars/pic3.jpeg"
                 alt="user2"
                 className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-3"
               />
               <img
-                src="/public/avatars/pic4.jpeg"
+                src="/avatars/pic4.jpeg"
                 alt="user3"
                 className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-4"
               />
               <img
-                src="/public/avatars/pic5.jpeg"
+                src="/avatars/pic5.jpeg"
                 alt="user5"
                 className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-5"
               />

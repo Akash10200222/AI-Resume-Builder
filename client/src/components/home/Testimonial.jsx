@@ -45,9 +45,9 @@ const Testimonial = () => {
         </div>
     );
 
-  return (
-    <>
-    <style>{`
+    return (
+        <>
+            <style>{`
             @keyframes marqueeScroll {
                 0% { transform: translateX(0%); }
                 100% { transform: translateX(-50%); }
@@ -62,14 +62,14 @@ const Testimonial = () => {
             }
         `}</style>
 
-    <div id='testimonials' className='flex flex-col items-center my-10 scroll-mt-12'>
-        <div className="flex items-center gap-2 text-sm text-pink-600 bg-pink-400/10 rounded-full px-6 py-1.5">
-            <BookUserIcon className='size-4.5 stroke-pink-600'/>
-            <span>Testimonials</span>
-        </div>
-        <Title title="Don't just take our words" description="Check out our user testimonials! If you love what we do, take a moment to share your positive feedback. We're always working to get better."/>
-    </div>
-    <div className="marquee-row w-full mx-auto max-w-5xl overflow-hidden relative">
+            <div id='testimonials' className='flex flex-col items-center my-10 scroll-mt-12'>
+                <div className="flex items-center gap-2 text-sm text-pink-600 bg-pink-400/10 rounded-full px-6 py-1.5">
+                    <BookUserIcon className='size-4.5 stroke-pink-600' />
+                    <span>Testimonials</span>
+                </div>
+                <Title title="Don't just take our words" description="Check out our user testimonials! If you love what we do, take a moment to share your positive feedback. We're always working to get better." />
+            </div>
+            <div className="marquee-row w-full mx-auto max-w-5xl overflow-hidden relative">
                 <div className="absolute left-0 top-0 h-full w-20 z-10 pointer-events-none bg-linear-to-r from-white to-transparent"></div>
                 <div className="marquee-inner flex transform-gpu min-w-[200%] pt-10 pb-5">
                     {[...cardsData, ...cardsData].map((card, index) => (
@@ -88,8 +88,8 @@ const Testimonial = () => {
                 </div>
                 <div className="absolute right-0 top-0 h-full w-20 md:w-40 z-10 pointer-events-none bg-linear-to-l from-white to-transparent"></div>
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default Testimonial

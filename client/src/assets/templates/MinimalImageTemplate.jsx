@@ -18,7 +18,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Image */}
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor+'70' }} />
+                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor + '70' }} />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
@@ -41,7 +41,6 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
 
                 {/* Left Sidebar */}
                 <aside className="col-span-1 border-r border-zinc-400 p-6 pt-0">
-
 
                     {/* Contact */}
                     <section className="mb-8">
@@ -184,6 +183,5 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         </div>
     );
 }
-
 
 export default MinimalImageTemplate;
